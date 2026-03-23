@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BurnoutScan — Diagnostic Expert IA · Imane Mourafik</title>
+<meta name="description" content="Système expert IA de diagnostic stress et burnout — OMS CIM-11 · Maslach MBI · DSM-5"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ══ ÉCRAN ACCUEIL ══════════════════════════════════ -->
+<div id="screen-welcome" class="screen active">
+  <canvas id="particleCanvas"></canvas>
+  <div class="grid-overlay"></div>
+
+  <nav class="nav">
+    <div class="logo">⬡ BurnoutScan</div>
+    <div class="nav-pill"><span class="pulse-dot"></span>Système Expert IA · Actif</div>
+    <div class="nav-author">Imane Mourafik <span class="nav-year">2025–2026</span></div>
+  </nav>
+
+  <main class="hero">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-chip">⬡ Intelligence Artificielle — Systèmes Experts</div>
+      <div class="eyebrow-year">2025 / 2026</div>
+    </div>
+    <h1 class="hero-h1">Évaluez votre<br/><em>santé mentale</em><br/>au travail</h1>
+    <p class="hero-sub">Un diagnostic expert basé sur les normes mondiales de santé.<br/><strong>Confidentiel · Gratuit · 5 minutes</strong></p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-n">60</span><span class="stat-l">Règles</span></div>
+      <div class="stat-line"></div>
+      <div class="stat"><span class="stat-n">55</span><span class="stat-l">Questions</span></div>
+      <div class="stat-line"></div>
+      <div class="stat"><span class="stat-n">6</span><span class="stat-l">Niveaux</span></div>
+      <div class="stat-line"></div>
+      <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Confidentiel</span></div>
+    </div>
+    <button class="hero-cta" onclick="App.start()">
+      <span>Commencer le diagnostic</span><span class="cta-arrow">→</span>
+    </button>
+    <div class="hero-badges">
+      <div class="badge-src">🌍 OMS CIM-11</div>
+      <div class="badge-src">📊 Maslach MBI</div>
+      <div class="badge-src">📖 DSM-5</div>
+      <div class="badge-src">🇫🇷 INRS</div>
+      <div class="badge-src">🏥 HAS</div>
+    </div>
+  </main>
+
+  <footer class="welcome-footer">
+    <div class="footer-left">⬡ BurnoutScan · Projet IA — Systèmes Experts</div>
+    <div class="footer-right"><strong>Imane Mourafik</strong> · Année 2025–2026</div>
+  </footer>
+</div>
+
+<!-- ══ ÉCRAN QUIZ ════════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <header class="quiz-nav">
+    <div class="logo small">⬡ BurnoutScan</div>
+    <div class="qnav-center">
+      <div class="section-tag"><span id="secEmoji">👤</span><span id="secLabel">Profil</span></div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="qpFill"></div></div>
+      </div>
+      <div class="qnav-count" id="qpText">1 / 55</div>
+    </div>
+    <button class="btn-ghost" onclick="App.restart()">↺</button>
+  </header>
+
+  <div class="quiz-arena">
+    <div class="q-card" id="qCard">
+      <div class="q-header">
+        <span class="q-num" id="qMeta">Q01</span>
+      </div>
+      <h2 class="q-text" id="qText"></h2>
+      <div class="q-help" id="qHelp" style="display:none"></div>
+      <div class="q-zone" id="qAnswers"></div>
+    </div>
+    <div class="quiz-nav-btns">
+      <button class="btn-back" id="btnPrev" onclick="App.prev()" style="visibility:hidden">← Précédent</button>
+      <button class="btn-forward" id="btnNxt" onclick="App.next()">Suivant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ÉCRAN RÉSULTATS ════════════════════════════════ -->
+<div id="screen-result" class="screen">
+  <div class="result-bg" id="resultBg"></div>
+  <div class="result-container">
+
+    <header class="result-topbar">
+      <div class="logo small">⬡ BurnoutScan</div>
+      <div class="result-meta">
+        <span id="resultPrenom" class="result-prenom"></span>
+        <span class="result-date" id="resultDate"></span>
+      </div>
+      <button class="btn-ghost" onclick="App.restart()">↺ Nouveau diagnostic</button>
+    </header>
+
+    <!-- URGENCE -->
+    <div id="urgencyBanner" class="urgency-box" style="display:none">
+      <div class="urg-pulse"></div>
+      <div class="urg-content">
+        <div class="urg-title">🚨 Situation d'urgence détectée</div>
+        <p class="urg-text">Votre vie a de la valeur. Des professionnels sont disponibles <strong>maintenant</strong>, gratuitement et anonymement.</p>
+        <div class="urg-actions">
+          <a href="tel:3114" class="urg-cta primary">📞 3114 — Prévention Suicide</a>
+          <a href="tel:15"   class="urg-cta secondary">📞 15 — SAMU</a>
+          <a href="tel:112"  class="urg-cta secondary">📞 112 — Urgences</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCORE -->
+    <section class="score-section">
+      <div class="score-visual">
+        <svg class="score-svg" viewBox="0 0 220 220" fill="none">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4f7ef8" id="g1"/>
+              <stop offset="100%" stop-color="#7c3aed" id="g2"/>
+            </linearGradient>
+          </defs>
+          <circle cx="110" cy="110" r="88" stroke="rgba(255,255,255,0.06)" stroke-width="16"/>
+          <circle id="scoreRing" cx="110" cy="110" r="88"
+            stroke="url(#ringGrad)" stroke-width="16" stroke-linecap="round"
+            stroke-dasharray="552.9" stroke-dashoffset="552.9"
+            transform="rotate(-90 110 110)"/>
+        </svg>
+        <div class="score-center-info">
+          <div class="score-number" id="scoreNum">0</div>
+          <div class="score-label">/ 100</div>
+        </div>
+      </div>
+      <div class="score-verdict">
+        <div class="verdict-emoji" id="verdictEmoji">–</div>
+        <div class="verdict-badge" id="verdictBadge">–</div>
+        <h1 class="verdict-h1" id="verdictH1">–</h1>
+        <p class="verdict-p" id="verdictP"></p>
+        <div class="verdict-author">Diagnostic pour <strong id="verdictPrenom">–</strong> · <span id="verdictDate">–</span></div>
+      </div>
+    </section>
+
+    <!-- CATÉGORIES -->
+    <section class="result-block">
+      <div class="block-title"><span class="block-icon">📊</span>Répartition par catégorie</div>
+      <div class="cats-grid" id="catsGrid"></div>
+    </section>
+
+    <!-- SYMPTÔMES -->
+    <section class="result-block">
+      <div class="block-title">
+        <span class="block-icon">🔎</span>Règles d'inférence déclenchées
+        <span class="block-count" id="sympCount">0 symptômes</span>
+      </div>
+      <div class="syms-list" id="symptomsList"></div>
+    </section>
+
+    <!-- RECOMMANDATIONS -->
+    <section class="result-block">
+      <div class="block-title"><span class="block-icon">💡</span>Recommandations personnalisées</div>
+      <div class="recos-grid" id="recosList"></div>
+    </section>
+
+    <!-- SOURCES -->
+    <section class="result-block">
+      <div class="block-title"><span class="block-icon">📚</span>Sources scientifiques & ressources d'aide</div>
+      <div class="sources-grid" id="sourcesGrid"></div>
+    </section>
+
+    <!-- AVERTISSEMENT -->
+    <div class="legal-block">
+      <div class="legal-icon">⚠️</div>
+      <div class="legal-text"><strong>Avertissement médical</strong> — Cet outil est une aide à la sensibilisation et ne constitue pas un diagnostic médical. Il ne remplace pas une consultation médicale. En cas de détresse, appelez le <strong>3114</strong>.</div>
+    </div>
+
+    <footer class="result-footer">
+      <div class="rf-brand">⬡ BurnoutScan — Système Expert Intelligence Artificielle</div>
+      <div class="rf-author">Réalisé par <strong>Imane Mourafik</strong> · Année 2025–2026</div>
+      <div class="rf-sources">OMS CIM-11 · Maslach MBI · INRS · HAS · DSM-5 · PubMed</div>
+    </footer>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
